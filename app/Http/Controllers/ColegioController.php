@@ -6,13 +6,11 @@ use Illuminate\Http\Request;
 
 class ColegioController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function __invoke(Request $request)
+    public function _construct(){
+        $this->middleware('auth');
+    }
+
+    public function index()
     {
         return view('index');
     }

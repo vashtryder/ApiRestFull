@@ -22,7 +22,7 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Colegio</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('colegio') }}">Colegio</a></li>
         <li class="breadcrumb-item active" aria-current="page">Año</li>
         </ol>
     </nav>

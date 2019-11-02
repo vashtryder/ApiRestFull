@@ -15,9 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/colegio', function () {
-    return view('index');
-});
+
+Route::get('/colegio', 'ColegioController@index')->name('colegio');
+
 
 Route::resource('colegio/grado', 'GradoController');
 Route::resource('colegio/seccion', 'SeccionController');
@@ -50,3 +50,19 @@ Route::get('/cancelar_nivel', function () {
 })->name('cancelar_nivel');
 
 Route::get('colegio/nivel/{id}/confirm','NivelController@confirm')->name('nivel.confirm');
+
+Route::get('/anio_index', function () {
+    return redirect()->route('anio.index');
+})->name('anio_index');
+
+Route::get('/grado_index', function () {
+    return redirect()->route('grado.index');
+})->name('grado_index');
+
+Route::get('/seccion_index', function () {
+    return redirect()->route('seccion.index');
+})->name('seccion_index');
+
+Route::get('/nivel_index', function () {
+    return redirect()->route('nivel.index');
+})->name('nivel_index');
