@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\nivel;
+use App\grado;
 
 class GradoController extends Controller
 {
@@ -14,7 +14,8 @@ class GradoController extends Controller
      */
     public function index()
     {
-        return view('grado.index');
+        $grado = grado::paginate(5);
+        return view('grado.index', compact('grado'));
     }
 
     /**
@@ -35,12 +36,11 @@ class GradoController extends Controller
      */
     public function store(Request $request)
     {
-        $nivel = new nivel;
-        $nivel->nom_nivel = strtoupper($request->nom_nivel);
-        $nivel->est_nivel = 1;
-        $nivel->abv_nivel = strtoupper(substr($request->nom_nivel,0,3));
-        $nivel->save();
-        return redirect()->route('anio.index')->with('datos','Registro Guardado correctamente.');
+        $grado = new grado;
+        $grado->nom_grado = strtoupper($request->nom_grado);
+        $grado->abv_grado = strtoupper( substr( $request->nom_grado , 0, 3) );
+        $grado->save();
+        return redirect()->route('grado.index')->with('datos','Registro Guardado correctamente.');
     }
 
     /**
@@ -51,7 +51,8 @@ class GradoController extends Controller
      */
     public function show($id)
     {
-        //
+        $grado = grado::findOrFail($id);
+        return view('grado.show', compact('grado'));
     }
 
     /**
@@ -62,7 +63,8 @@ class GradoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $grado = grado::findOrFail($id);
+        return view('grado.edit', compact('grado') );
     }
 
     /**
@@ -74,7 +76,11 @@ class GradoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $grado = grado::findOrFail($id);
+        $grado->nom_grado = strtoupper($request->nom_grado);
+        $grado->abv_grado = strtoupper( substr( $request->nom_grado , 0, 3) );
+        $grado->save();
+        return redirect()->route('grado.index')->with('grado','Registro Actualizado correctamente.');
     }
 
     /**
@@ -83,8 +89,16 @@ class GradoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+
+    public function destroy($id){
+        $grado = grado::findOrFail($id);
+        $grado->delete();
+        return redirect()->route('grado.index')->with('grado','Registro Eliminado correctamente.');
+    }
+
+    public function confirm($id)
     {
-        //
+        $grado = grado::findOrFail($id);
+        return view('grado.confirm',compact('grado'));
     }
 }

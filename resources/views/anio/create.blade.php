@@ -52,4 +52,4 @@
         </div>
     </form>
 @endsection
-@section('titulo','Nuevo Nivel Academico')
+@section('titulo','Nuevo Anio Academico')

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\seccion;
 
 class SeccionController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +15,8 @@ class SeccionController extends Controller
      */
     public function index()
     {
-        return view('seccion.index');
+        $seccion = seccion::paginate(5);
+        return view('seccion.index', compact('seccion'));
     }
 
     /**
@@ -34,7 +37,11 @@ class SeccionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $seccion = new seccion;
+        $seccion->nom_seccion = strtoupper($request->nom_seccion);
+        $seccion->abv_seccion = strtoupper( substr( $request->nom_seccion , 0, 3) );
+        $seccion->save();
+        return redirect()->route('seccion.index')->with('datos','Registro Guardado correctamente.');
     }
 
     /**
@@ -45,7 +52,8 @@ class SeccionController extends Controller
      */
     public function show($id)
     {
-        //
+        $seccion = seccion::findOrFail($id);
+        return view('seccion.show', compact('seccion'));
     }
 
     /**
@@ -56,7 +64,8 @@ class SeccionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $seccion = seccion::findOrFail($id);
+        return view('seccion.edit', compact('seccion') );
     }
 
     /**
@@ -68,7 +77,11 @@ class SeccionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $seccion = seccion::findOrFail($id);
+        $seccion->nom_seccion = strtoupper($request->nom_seccion);
+        $seccion->abv_seccion = strtoupper( substr( $request->nom_seccion , 0, 3) );
+        $seccion->save();
+        return redirect()->route('seccion.index')->with('seccion','Registro Actualizado correctamente.');
     }
 
     /**
@@ -79,6 +92,14 @@ class SeccionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $seccion = seccion::findOrFail($id);
+        $seccion->delete();
+        return redirect()->route('seccion.index')->with('seccion','Registro Eliminado correctamente.');
+    }
+
+    public function confirm($id)
+    {
+        $seccion = seccion::findOrFail($id);
+        return view('seccion.confirm',compact('seccion'));
     }
 }

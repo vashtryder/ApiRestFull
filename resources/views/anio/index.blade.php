@@ -63,6 +63,6 @@
     </table>
     {{ $datos }}
 @endsection
-@section('titulo','Nivel Academico')
+@section('titulo','Anio Academico')
 
 

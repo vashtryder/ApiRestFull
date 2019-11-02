@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\nivel;
 
 class NivelController extends Controller
 {
@@ -13,7 +14,8 @@ class NivelController extends Controller
      */
     public function index()
     {
-        return view('nivel.index');
+        $nivel = nivel::paginate(5);
+        return view('nivel.index', compact('nivel'));
     }
 
     /**
@@ -34,7 +36,11 @@ class NivelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $nivel = new nivel;
+        $nivel->nom_nivel = strtoupper($request->nom_nivel);
+        $nivel->abv_nivel = strtoupper( substr( $request->nom_nivel , 0, 3) );
+        $nivel->save();
+        return redirect()->route('nivel.index')->with('datos','Registro Guardado correctamente.');
     }
 
     /**
@@ -45,7 +51,8 @@ class NivelController extends Controller
      */
     public function show($id)
     {
-        //
+        $nivel = nivel::findOrFail($id);
+        return view('nivel.show', compact('nivel'));
     }
 
     /**
@@ -56,7 +63,8 @@ class NivelController extends Controller
      */
     public function edit($id)
     {
-        //
+        $nivel = nivel::findOrFail($id);
+        return view('nivel.edit', compact('nivel') );
     }
 
     /**
@@ -68,7 +76,11 @@ class NivelController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $nivel = nivel::findOrFail($id);
+        $nivel->nom_nivel = strtoupper($request->nom_nivel);
+        $nivel->abv_nivel = strtoupper( substr( $request->nom_nivel , 0, 3) );
+        $nivel->save();
+        return redirect()->route('nivel.index')->with('nivel','Registro Actualizado correctamente.');
     }
 
     /**
@@ -79,6 +91,14 @@ class NivelController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $nivel = nivel::findOrFail($id);
+        $nivel->delete();
+        return redirect()->route('nivel.index')->with('nivel','Registro Eliminado correctamente.');
+    }
+
+    public function confirm($id)
+    {
+        $nivel = nivel::findOrFail($id);
+        return view('nivel.confirm',compact('nivel'));
     }
 }

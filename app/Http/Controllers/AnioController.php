@@ -14,7 +14,6 @@ class AnioController extends Controller
      */
     public function index()
     {
-        // $anio = anio::all();
         $anio = anio::paginate(5);
         return view('anio.index', ['datos' => $anio]);
     }
